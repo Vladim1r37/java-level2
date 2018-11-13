@@ -1,5 +1,7 @@
 package Lesson5;
 
+import java.util.Arrays;
+
 public class Main5 {
 
     static final int size = 10000000;
@@ -10,31 +12,32 @@ public class Main5 {
 
 
     public static void main(String[] args) {
-        calc1();
+        float[] arr = new float[size];
+        float[] arr2 = new float[size];
+        calc1(arr);
         try {
-            calc2();
+            calc2(arr2, arr);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         try {
-            calc3();
+            calc3(arr2, arr);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         try {
-            calc4();
+            calc4(arr2, arr);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private static void calc1() {
-        float[] arr = new float[size];
-        for (float i : arr ) {
-            i = 1;
+    private static void calc1(float[] arr) {
+        for (int i = 0; i < size; i++) {
+            arr[i] = 1;
         }
         long a = System.currentTimeMillis();
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < size; i++) {
             arr[i] = (float) (arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
         }
 
@@ -42,16 +45,15 @@ public class Main5 {
         System.out.println(System.currentTimeMillis() - a);
     }
 
-    private static void calc2() throws InterruptedException {
-        float[] arr = new float[size];
-        for (float i : arr ) {
-            i = 1;
+    private static void calc2(float[] arr, float[] arr2) throws InterruptedException {
+        for (int i = 0; i < size; i++) {
+            arr[i] = 1;
         }
         long a = System.currentTimeMillis();
         float[] a1 = new float[half];
         float[] a2 = new float[half];
         System.arraycopy(arr, 0, a1, 0, half);
-        System.arraycopy(arr, half, a1, 0, half);
+        System.arraycopy(arr, half, a2, 0, half);
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -65,7 +67,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < half; i++) {
-                    a2[i] = (float) (a2[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a2[i] = (float) (a2[i] * Math.sin(0.2f + (i + half) / 5) * Math.cos(0.2f + (i + half) / 5) * Math.cos(0.4f + (i + half) / 2));
                 }
             }
         });
@@ -78,13 +80,16 @@ public class Main5 {
 
         System.out.print("Время выполнения двумя потоками - ");
         System.out.println(System.currentTimeMillis() - a);
+        System.out.println(Arrays.equals(arr, arr2));
+
+
     }
 
-    private static void calc3() throws InterruptedException {
-        float[] arr = new float[size];
-        for (float i : arr ) {
-            i = 1;
+    private static void calc3(float[] arr, float[] arr2) throws InterruptedException {
+        for (int i = 0; i < size; i++) {
+            arr[i] = 1;
         }
+
         long a = System.currentTimeMillis();
         float[] a1 = new float[quarter];
         float[] a2 = new float[quarter];
@@ -107,7 +112,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < quarter; i++) {
-                    a2[i] = (float) (a2[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a2[i] = (float) (a2[i] * Math.sin(0.2f + (i + quarter) / 5) * Math.cos(0.2f + (i + quarter) / 5) * Math.cos(0.4f + (i + quarter) / 2));
                 }
             }
         });
@@ -116,7 +121,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < quarter; i++) {
-                    a3[i] = (float) (a3[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a3[i] = (float) (a3[i] * Math.sin(0.2f + (i + quarter * 2) / 5) * Math.cos(0.2f + (i + quarter * 2) / 5) * Math.cos(0.4f + (i + quarter * 2) / 2));
                 }
             }
         });
@@ -125,7 +130,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < quarter; i++) {
-                    a4[i] = (float) (a4[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a4[i] = (float) (a4[i] * Math.sin(0.2f + (i + quarter * 3) / 5) * Math.cos(0.2f + (i + quarter * 3) / 5) * Math.cos(0.4f + (i + quarter * 3) / 2));
                 }
             }
         });
@@ -142,13 +147,15 @@ public class Main5 {
 
         System.out.print("Время выполнения четырьмя потоками - ");
         System.out.println(System.currentTimeMillis() - a);
+        System.out.println(Arrays.equals(arr, arr2));
+
     }
 
-    private static void calc4() throws InterruptedException {
-        float[] arr = new float[size];
-        for (float i : arr ) {
-            i = 1;
+    private static void calc4(float[] arr, float[] arr2) throws InterruptedException {
+        for (int i = 0; i < size; i++) {
+            arr[i] = 1;
         }
+
         long a = System.currentTimeMillis();
         float[] a1 = new float[oneEighth];
         float[] a2 = new float[oneEighth];
@@ -179,7 +186,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < oneEighth; i++) {
-                    a2[i] = (float) (a2[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a2[i] = (float) (a2[i] * Math.sin(0.2f + (i + oneEighth) / 5) * Math.cos(0.2f + (i + oneEighth) / 5) * Math.cos(0.4f + (i + oneEighth) / 2));
                 }
             }
         });
@@ -188,7 +195,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < oneEighth; i++) {
-                    a3[i] = (float) (a3[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a3[i] = (float) (a3[i] * Math.sin(0.2f + (i + oneEighth * 2) / 5) * Math.cos(0.2f + (i + oneEighth * 2) / 5) * Math.cos(0.4f + (i + oneEighth * 2) / 2));
                 }
             }
         });
@@ -197,7 +204,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < oneEighth; i++) {
-                    a4[i] = (float) (a4[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a4[i] = (float) (a4[i] * Math.sin(0.2f + (i + oneEighth * 3) / 5) * Math.cos(0.2f + (i + oneEighth * 3) / 5) * Math.cos(0.4f + (i + oneEighth * 3) / 2));
                 }
             }
         });
@@ -206,7 +213,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < oneEighth; i++) {
-                    a5[i] = (float) (a5[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a5[i] = (float) (a5[i] * Math.sin(0.2f + (i + oneEighth * 4) / 5) * Math.cos(0.2f + (i + oneEighth * 4) / 5) * Math.cos(0.4f + (i + oneEighth * 4) / 2));
                 }
             }
         });
@@ -215,7 +222,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < oneEighth; i++) {
-                    a6[i] = (float) (a6[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a6[i] = (float) (a6[i] * Math.sin(0.2f + (i + oneEighth * 5) / 5) * Math.cos(0.2f + (i + oneEighth * 5) / 5) * Math.cos(0.4f + (i + oneEighth * 5) / 2));
                 }
             }
         });
@@ -224,7 +231,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < oneEighth; i++) {
-                    a7[i] = (float) (a7[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a7[i] = (float) (a7[i] * Math.sin(0.2f + (i + oneEighth * 6) / 5) * Math.cos(0.2f + (i + oneEighth * 6) / 5) * Math.cos(0.4f + (i + oneEighth * 6) / 2));
                 }
             }
         });
@@ -233,7 +240,7 @@ public class Main5 {
             @Override
             public void run() {
                 for (int i = 0; i < oneEighth; i++) {
-                    a8[i] = (float) (a8[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                    a8[i] = (float) (a8[i] * Math.sin(0.2f + (i + oneEighth * 7) / 5) * Math.cos(0.2f + (i + oneEighth * 7) / 5) * Math.cos(0.4f + (i + oneEighth * 7) / 2));
                 }
             }
         });
@@ -259,5 +266,6 @@ public class Main5 {
 
         System.out.print("Время выполнения восемью потоками - ");
         System.out.println(System.currentTimeMillis() - a);
+        System.out.println(Arrays.equals(arr, arr2));
     }
 }
