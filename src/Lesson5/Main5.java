@@ -10,6 +10,7 @@ public class Main5 {
     public static void main(String[] args) {
         float[] arr = new float[SIZE];
         calc(arr);
+        calc(arr, 1);
         calc(arr, 2);
         calc(arr, 4);
         calc(arr, 8);
