@@ -9,10 +9,7 @@ public class Main5 {
 
     public static void main(String[] args) {
         float[] arr = new float[SIZE];
-        float[] arr2 = new float[SIZE];
         calc(arr);
-        calc(arr2, 1);
-        System.out.println(Arrays.equals(arr, arr2));
         calc(arr, 2);
         calc(arr, 4);
         calc(arr, 8);
