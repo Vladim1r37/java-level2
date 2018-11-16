@@ -1,6 +1,6 @@
 package Lesson6.Server;
 
-public class Start {
+public class StartS {
     public static void main(String[] args) {
         new Server();
     }
